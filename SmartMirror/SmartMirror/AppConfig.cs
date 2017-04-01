@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,6 @@ namespace SmartMirror
     public class AppConfig
     {
         public string Text { get; set; }
-        public List<WidgetConfig> Widgets { get; set; }
+        public ReadOnlyCollection<WidgetConfig> Widgets { get; set; }
     }
 }
