@@ -17,6 +17,8 @@ namespace SmartMirror
             //Set our delegates
             _speechManager.Login += HelloFunc;
             _speechManager.Logout += GoodbyeFunc;
+
+            Debug.WriteLine(App.Config.Text);
         }
 
         public void HelloFunc()
