@@ -1,5 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
-using System.Diagnostics;
+using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 
 namespace SmartMirror
 {
@@ -15,19 +16,31 @@ namespace SmartMirror
             _speechManager.Init();
 
             //Set our delegates
-            _speechManager.Login += HelloFunc;
-            _speechManager.Logout += GoodbyeFunc;
+            _speechManager.Login += FadeIn;
+            _speechManager.Logout += FadeOut;
 
-            Debug.WriteLine(App.Config.Text);
+            //Create widgets
+            foreach (var widgetConfig in App.Config.Widgets)
+            {
+                var widget = WidgetsFactory.Create(widgetConfig);
+                canvas.Children.Add(widget);
+            }
         }
 
-        public void HelloFunc()
+        public async void FadeIn()
         {
-            Debug.WriteLine("Hello");
+            await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+            {
+                await this.Fade(value: 1.0f, duration: 1000, delay: 0).StartAsync();
+            });
         }
-        public void GoodbyeFunc()
+
+        public async void FadeOut()
         {
-            Debug.WriteLine("Goodbye");
+            await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+            {
+                await this.Fade(value: 0.0f, duration: 1000, delay: 0).StartAsync();
+            });
         }
     }
 }
